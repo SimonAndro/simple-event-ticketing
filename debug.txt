@@ -1,0 +1,187 @@
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => 
+    [5] => 2
+)
+#67703-61326Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => 
+    [5] => 2
+)
+#67728-81871closerArray
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => 
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #67779-49487
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #67779-49487
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #67779-49487
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => issued
+    [4] => #67913-40272
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #67913-40272
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #67913-40272
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2017020501001
+)
+Array
+(
+    [0] => PAUL ERNEST KACHULE
+    [1] => 2017020501001
+    [2] => MALAWI
+    [3] => 
+    [4] => #68150-72508
+    [5] => 2
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2018011601001
+)
+Array
+(
+    [0] => NAKIBINGE SIMON
+    [1] => 2018011601001
+    [2] => UGANDA
+    [3] => 
+    [4] => 
+    [5] => 1
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2018011601001
+)
+Array
+(
+    [0] => NAKIBINGE SIMON
+    [1] => 2018011601001
+    [2] => UGANDA
+    [3] => 
+    [4] => 
+    [5] => 1
+)
+Array
+(
+    [action] => generate
+    [studnum] => 2018011601001
+)
+Array
+(
+    [0] => NAKIBINGE SIMON
+    [1] => 2018011601001
+    [2] => UGANDA
+    [3] => 
+    [4] => #19191737-11
+    [5] => 1
+)
