@@ -5,11 +5,7 @@ $(function () {
         submitForm(f);
 
     });
-
-    $("#id-downloadticket-modal").on('shown', function () {
-        resetgetTicket(); // reset values on modal shown
-    });
-});
+})();
 
 
 var myinterval = "";
@@ -42,6 +38,11 @@ function submitForm(f) {
                     $("#studnum-placeholder").attr("href", res.value);
                     $("#studnum-placeholder-img").attr("src", res.value);
                     $("#id-downloadticket-modal").modal("show");
+
+                    //set progress bar to 100%
+                    clearInterval(myinterval);
+                    $("#progress").css("width", "100%");
+                    $("#progress").html("100%");
 
                 } else if (res.type == "error") {
                     var errors = res.value;
