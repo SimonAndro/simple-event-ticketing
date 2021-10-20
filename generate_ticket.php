@@ -72,7 +72,7 @@ if (isset($_POST) and !empty($_POST['action'])) {
             $issued_array = array_filter($workSheet_array, "issued");
             $array_keys = array_keys($issued_array);
 
-            dump_to_file("count array keys->".count($array_keys));
+
 
             $lucky_num = rand(00, count($issued_array) - 1); // get luck winner
             $lucky_key = $array_keys[$lucky_num];
