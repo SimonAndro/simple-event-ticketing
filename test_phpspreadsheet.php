@@ -13,18 +13,27 @@ $workSheet = $spreadsheet->getActiveSheet();
 $workSheet_array = $workSheet->toArray();
 
 
-# mark ticket issued
-$workSheet->getCell("D5")->setValue('issued');
-$workSheet->getCell("E5")->setValue("12345512");
+// # mark ticket issued
+// $workSheet->getCell("D5")->setValue('issued');
+// $workSheet->getCell("E5")->setValue("12345512");
 
-# mark ticket issued
-$workSheet->getCell("D6")->setValue('issued');
-$workSheet->getCell("E6")->setValue("48552138");
+// # mark ticket issued
+// $workSheet->getCell("D6")->setValue('issued');
+// $workSheet->getCell("E6")->setValue("48552138");
 
-# mark ticket issued
-$workSheet->getCell("D7")->setValue('issued');
-$workSheet->getCell("E7")->setValue("12810002");
+// # mark ticket issued
+// $workSheet->getCell("D7")->setValue('issued');
+// $workSheet->getCell("E7")->setValue("12810002");
 
-//writing changes directly using loaded spreadsheet data
-$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-$writer->save( $inputFileName );
+// //writing changes directly using loaded spreadsheet data
+// $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+// $writer->save( $inputFileName );
+
+
+function issued($var)
+{
+    return $var[3] == "issued";
+}
+
+$filtered = array_filter($workSheet_array, "issued");
+print_r($filtered);

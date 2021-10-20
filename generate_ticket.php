@@ -68,134 +68,27 @@ if (isset($_POST) and !empty($_POST['action'])) {
 
             $workSheet_array = $workSheet->toArray();
 
-            $workSheet_array = array(
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-80"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19123324-12"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192300-47"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192313-76"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19152324-03"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-46"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-24"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-76"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-32"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-20"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-17"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-11"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-25"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-15"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-16"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-23"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-77"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-45"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-48"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-12"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-36"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-76"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-23"],
-                ["NAKIBINGE SIMON",
-                    "2018011601001",
-                    "UGANDA",
-                    "issued",
-                    "#19192324-66"],
-            );
 
-            $lucky_winner = rand(00, count($workSheet_array) - 1); // get luck winner
-            $lucky_winner  = "" . $workSheet_array[$lucky_winner][4];
+            $issued_array = array_filter($workSheet_array, "issued");
+            $array_keys = array_keys($issued_array);
+
+            dump_to_file("count array keys->".count($array_keys));
+
+            $lucky_num = rand(00, count($issued_array) - 1); // get luck winner
+            $lucky_key = $array_keys[$lucky_num];
+
+            $lucky_winner  = strval($issued_array[$lucky_key][4]);
+         
             $lucky_winner = str_replace("#","",$lucky_winner);
             $lucky_winner = str_replace("-","",$lucky_winner);
             $lucky_winner = str_replace("0","10",$lucky_winner);
+
+            // set lucky winner
+            $workSheet->getCell("F" . ($lucky_key + 1))->setValue('winner');
+
+             //writing changes directly using loaded spreadsheet data
+            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+            $writer->save($inputFileName);
 
             $res["type"] = "success";
             $res["value"] = str_split($lucky_winner);
@@ -212,6 +105,12 @@ if (isset($_POST) and !empty($_POST['action'])) {
     }
 } else {
 
+}
+
+//issued tickets, and hasn't won
+function issued($var)
+{
+    return $var[3] == "issued" and $var[5] !="winner";
 }
 
 //verify ticket name
@@ -342,5 +241,5 @@ function getConfig($key)
 // debugging purposes
 function dump_to_file($data)
 {
-    file_put_contents("./debug.txt", print_r($data, true), FILE_APPEND);
+    file_put_contents("./debug.txt", print_r($data, true)."\n", FILE_APPEND);
 }
