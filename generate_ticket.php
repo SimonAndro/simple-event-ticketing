@@ -6,14 +6,13 @@ require_once __DIR__ . '/src/TextToImage.php';
 require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$inputFileName = __DIR__ . '/data/aeb3bcb1b6148eb24c6917029b604291.xlsx';
+$inputFileName = getConfig("data_file_name"); //name of file that store data
 
-$base_url = "http://localhost/simple-event-ticketing";
+$base_url = getConfig("base_url"); // url of site
+
 $error_bag = []; // to store error
 $res["type"] = "error";
 
-
-dump_to_file($_POST);
 
 if(isset($_POST) and !empty($_POST['action']))
 {
@@ -112,7 +111,7 @@ function verify_studentnum($studnum, $workSheet)
     {
         $student = $workSheet_array[$key];
         array_push($student, $key);
-        dump_to_file($student);
+
         if($student[3] == "issued") //checking if ticket has already been issued
         {
             $error_bag[] = "student no. $studnum has already retrieved a ticket. contact organizer.";
@@ -193,7 +192,15 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     return "$base_url$filename.png";
 }
 
+// returns configuration value
+function getConfig($key)
+{
+    $config = include(__DIR__."/config.php");
+    return $config[$key];
+}
+
 // debugging purposes
 function dump_to_file($data){ 
     file_put_contents("./debug.txt",print_r($data,true),FILE_APPEND);
 }
+
