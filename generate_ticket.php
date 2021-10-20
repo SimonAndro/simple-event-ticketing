@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare (strict_types = 1);
 
 require_once __DIR__ . '/src/TextToImage.php';
 
@@ -13,8 +13,7 @@ $base_url = getConfig("base_url"); // url of site
 $error_bag = []; // to store error
 $res["type"] = "error";
 
-if(stripos($_SERVER["HTTP_USER_AGENT"],"wechat") || stripos($_SERVER["HTTP_USER_AGENT"],"alipay"))
-{
+if (stripos($_SERVER["HTTP_USER_AGENT"], "wechat") || stripos($_SERVER["HTTP_USER_AGENT"], "alipay")) {
     $error_bag[] = "open link in browser to get ticket";
 
     $res["value"] = $error_bag;
@@ -22,13 +21,10 @@ if(stripos($_SERVER["HTTP_USER_AGENT"],"wechat") || stripos($_SERVER["HTTP_USER_
     return false;
 }
 
-
-if(isset($_POST) and !empty($_POST['action']))
-{
+if (isset($_POST) and !empty($_POST['action'])) {
     $action = $_POST['action'];
 
-    switch($action)
-    {
+    switch ($action) {
         case "generate": // generate ticket
 
             // Read excel file
@@ -36,16 +32,15 @@ if(isset($_POST) and !empty($_POST['action']))
             // get active worksheet
             $workSheet = $spreadsheet->getActiveSheet();
 
-            $studnum = empty($_POST["studnum"])?"":trim("".$_POST["studnum"]);
+            $studnum = empty($_POST["studnum"]) ? "" : trim("" . $_POST["studnum"]);
 
-            if($student = verify_studentnum($studnum, $workSheet))
-            {
+            if ($student = verify_studentnum($studnum, $workSheet)) {
                 $res["type"] = "success";
                 $res["value"] = generate_ticket($student, $spreadsheet, $workSheet);
                 echo json_encode($res);
                 return false;
-            }else{
-                
+            } else {
+
                 $res["value"] = $error_bag;
                 echo json_encode($res);
                 return false;
@@ -53,34 +48,176 @@ if(isset($_POST) and !empty($_POST['action']))
 
             break;
         case "download": // download ticket
-            $ticketname = empty($_POST["ticketname"])?"":$_POST["ticketname"];
-            
-            if(verify_ticketname($ticketname))
-            {
+            $ticketname = empty($_POST["ticketname"]) ? "" : $_POST["ticketname"];
+
+            if (verify_ticketname($ticketname)) {
                 download_ticket($ticketname);
                 return false;
-            }else{
-                
+            } else {
+
                 $res["value"] = $error_bag;
                 echo json_encode($res);
                 return false;
             }
             break;
+        case "draw":
+            // Read excel file
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
+            // get active worksheet
+            $workSheet = $spreadsheet->getActiveSheet();
+
+            $workSheet_array = $workSheet->toArray();
+
+            $workSheet_array = array(
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-80"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19123324-12"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192300-47"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192313-76"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19152324-03"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-46"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-24"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-76"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-32"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-20"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-17"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-11"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-25"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-15"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-16"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-23"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-77"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-45"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-48"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-12"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-36"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-76"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-23"],
+                ["NAKIBINGE SIMON",
+                    "2018011601001",
+                    "UGANDA",
+                    "issued",
+                    "#19192324-66"],
+            );
+
+            $lucky_winner = rand(00, count($workSheet_array) - 1); // get luck winner
+            $lucky_winner  = "" . $workSheet_array[$lucky_winner][4];
+            $lucky_winner = str_replace("#","",$lucky_winner);
+            $lucky_winner = str_replace("-","",$lucky_winner);
+            $lucky_winner = str_replace("0","10",$lucky_winner);
+
+            $res["type"] = "success";
+            $res["value"] = str_split($lucky_winner);
+
+            echo json_encode($res); // return luck winner
+            return false;
+
+            break;
         default:
-            $error_bag[] ="unknown request";
+            $error_bag[] = "unknown request";
             $res["value"] = $error_bag;
             echo json_encode($res);
             break;
     }
-}else{
+} else {
 
 }
-
 
 //verify ticket name
 function verify_ticketname()
 {
-    
+
     global $error_bag;
 }
 
@@ -90,22 +227,19 @@ function download_ticket($ticketname)
     header("Content-Type: image/png");
 }
 
-
 // verify student number, checks if the student number exists in the excell sheet
 function verify_studentnum($studnum, $workSheet)
 {
     global $error_bag;
 
     $studnum_len = strlen($studnum);
-    if($studnum_len == 0)
-    {
+    if ($studnum_len == 0) {
         $error_bag[] = "student no. can't be empty";
 
         return false;
     }
 
-    if($studnum_len < 5 or !ctype_digit($studnum))
-    {
+    if ($studnum_len < 5 or !ctype_digit($studnum)) {
         $error_bag[] = "student no. invalid. contact organizer.";
 
         return false;
@@ -116,12 +250,11 @@ function verify_studentnum($studnum, $workSheet)
 
     $student["key"] = $key;
 
-    if($key)
-    {
+    if ($key) {
         $student = $workSheet_array[$key];
         array_push($student, $key);
 
-        if($student[3] == "issued") //checking if ticket has already been issued
+        if ($student[3] == "issued") //checking if ticket has already been issued
         {
             $error_bag[] = "student no. $studnum has already retrieved a ticket. contact organizer.";
 
@@ -136,51 +269,49 @@ function verify_studentnum($studnum, $workSheet)
     return false;
 }
 
-
 // generate ticket
 function generate_ticket($student, $spreadsheet, $workSheet)
 {
     global $inputFileName;
     global $base_url;
-    
+
     $studnum = md5($student[1]);
     $filename = "/files/$studnum";
 
     $brand = '#';
-    $cur_date = date("d").date("H").date("i").date("s");
-    $invoice = $brand.$cur_date;
-    $customer_id = rand(00 , 99);
-    $uRefNo = $invoice.'-'.$customer_id;
-    
+    $cur_date = date("d") . date("H") . date("i") . date("s");
+    $invoice = $brand . $cur_date;
+    $customer_id = rand(00, 99);
+    $uRefNo = $invoice . '-' . $customer_id;
+
     $text1 = function (TextToImage $handler) use ($uRefNo) { //ticket number
 
         $handler->add($uRefNo)
-                ->position(610, 1005)
-                ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
-                ->color(255, 255, 255)
-                ->shadow(1, 2, [0, 0, 0]);
+            ->position(610, 1005)
+            ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
+            ->color(255, 255, 255)
+            ->shadow(1, 2, [0, 0, 0]);
     };
-    $text2 = function (TextToImage $handler)  use ($student) { // student number
+    $text2 = function (TextToImage $handler) use ($student) { // student number
 
-        $handler->add("".$student[1])
-                ->position(610, 1130)
-                ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
-                ->color(255, 255, 255)
-                ->shadow(1, 2, [0, 0, 0]);
+        $handler->add("" . $student[1])
+            ->position(610, 1130)
+            ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
+            ->color(255, 255, 255)
+            ->shadow(1, 2, [0, 0, 0]);
     };
     $text3 = function (TextToImage $handler) use ($student) { // student name
 
-        $studname = "".$student[0];
-        if(strlen($studname)>25)
-        {
-            $studname = substr($studname, 0,25)."...";
+        $studname = "" . $student[0];
+        if (strlen($studname) > 25) {
+            $studname = substr($studname, 0, 25) . "...";
         }
 
         $handler->add($studname)
-                ->position(610, 1255)
-                ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
-                ->color(255, 255, 255)
-                ->shadow(1, 2, [0, 0, 0]);
+            ->position(610, 1255)
+            ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
+            ->color(255, 255, 255)
+            ->shadow(1, 2, [0, 0, 0]);
     };
 
     # Write new image
@@ -188,15 +319,15 @@ function generate_ticket($student, $spreadsheet, $workSheet)
         $text1,
         $text2,
         $text3
-    )->close(__DIR__ .$filename);
+    )->close(__DIR__ . $filename);
 
     # mark ticket issued
-    $workSheet->getCell("D".($student[5]+1))->setValue('issued');
-    $workSheet->getCell("E".($student[5]+1))->setValue($uRefNo);
+    $workSheet->getCell("D" . ($student[5] + 1))->setValue('issued');
+    $workSheet->getCell("E" . ($student[5] + 1))->setValue($uRefNo);
 
     //writing changes directly using loaded spreadsheet data
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-    $writer->save( $inputFileName );
+    $writer->save($inputFileName);
 
     return "$base_url$filename.png";
 }
@@ -204,12 +335,12 @@ function generate_ticket($student, $spreadsheet, $workSheet)
 // returns configuration value
 function getConfig($key)
 {
-    $config = include(__DIR__."/config.php");
+    $config = include __DIR__ . "/config.php";
     return $config[$key];
 }
 
 // debugging purposes
-function dump_to_file($data){ 
-    file_put_contents("./debug.txt",print_r($data,true),FILE_APPEND);
+function dump_to_file($data)
+{
+    file_put_contents("./debug.txt", print_r($data, true), FILE_APPEND);
 }
-
