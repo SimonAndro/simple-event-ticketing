@@ -6,9 +6,9 @@ require_once __DIR__ . '/src/TextToImage.php';
 require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$inputFileName = __DIR__ . '/data/studentsdb.xlsx';
+$inputFileName = __DIR__ . '/data/aeb3bcb1b6148eb24c6917029b604291.xlsx';
 
-$base_url = "http://localhost/simple-event-ticketing/";
+$base_url = "http://localhost/simple-event-ticketing";
 $error_bag = []; // to store error
 $res["type"] = "error";
 
@@ -28,7 +28,7 @@ if(isset($_POST) and !empty($_POST['action']))
             // get active worksheet
             $workSheet = $spreadsheet->getActiveSheet();
 
-            $studnum = empty($_POST["studnum"])?"":$_POST["studnum"];
+            $studnum = empty($_POST["studnum"])?"":trim("".$_POST["studnum"]);
 
             if($student = verify_studentnum($studnum, $workSheet))
             {
@@ -73,7 +73,6 @@ if(isset($_POST) and !empty($_POST['action']))
 function verify_ticketname()
 {
     
-
     global $error_bag;
 }
 
@@ -88,6 +87,21 @@ function download_ticket($ticketname)
 function verify_studentnum($studnum, $workSheet)
 {
     global $error_bag;
+
+    $studnum_len = strlen($studnum);
+    if($studnum_len == 0)
+    {
+        $error_bag[] = "student no. can't be empty";
+
+        return false;
+    }
+
+    if($studnum_len < 5 or !ctype_digit($studnum))
+    {
+        $error_bag[] = "student no. invalid. contact organizer.";
+
+        return false;
+    }
 
     $workSheet_array = $workSheet->toArray();
     $key = array_search($studnum, array_column($workSheet_array, 1)); // search for matching student number
@@ -121,7 +135,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     global $inputFileName;
     global $base_url;
     
-    $studnum = $student[1];
+    $studnum = md5($student[1].time());
     $filename = "/files/$studnum";
 
     $brand = '#';
@@ -129,7 +143,6 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     $invoice = $brand.$cur_date;
     $customer_id = rand(00 , 99);
     $uRefNo = $invoice.'-'.$customer_id;
-    echo $uRefNo;
     
     $text1 = function (TextToImage $handler) use ($uRefNo) { //ticket number
 
@@ -177,7 +190,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     $writer->save( $inputFileName );
 
-    return $base_url.$filename;
+    return "$base_url$filename.png";
 }
 
 // debugging purposes

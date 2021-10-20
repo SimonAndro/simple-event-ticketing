@@ -30,7 +30,9 @@
 
                     <div class="text-center">
                         <div class="progress" style="display:none">
-                            <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 5%;">5%</div>
+                            <div id="progress"
+                                class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                role="progressbar" style="width: 10%;">10%</div>
                         </div>
                     </div>
 
@@ -46,6 +48,39 @@
                             <button type="submit" class="btn btn-primary btn-block">Get Ticket</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notifications">
+
+    </div>
+
+    <!-- download ticket Modal -->
+    <div class="modal fade" id="id-downloadticket-modal" tabindex="-1" role="dialog"
+        aria-labelledby="id-downloadticket-modal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Save Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div style="font-size: 12px;">
+                        Note: The ticket is only issued once, save it before closing browser window
+                    </div>
+                    <hr class="m-0">
+                    <div class="mt-2">
+                        <img style="width: 100%; height: auto;" id="studnum-placeholder-img" src="./files/2018011601001.png" alt="ticket">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">                 
+                    <a id="studnum-placeholder" href="./index.html" class="btn  btn-primary" target="_blank" download>Download Ticket</a>                               
                 </div>
             </div>
         </div>
@@ -341,6 +376,7 @@
     <script src="./assets/js/jquery-3.2.1.min.js"></script>
     <script src="./assets/js/bootstrap.min.js"></script>
     <script src="./assets/js/animation-bg.js"></script>
+    <script src="./assets/js/notify.js"></script>
     <script src="./assets/js/base.js"></script>
 
 </body>
