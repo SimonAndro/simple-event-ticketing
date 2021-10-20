@@ -168,6 +168,13 @@
         $('#btn-spinner').click(function () {
             //sound.play(); // Start play the sound after click button
 
+            if(!enterPassword())
+            {
+                alert("a valid password is required to spin");
+
+                return false;
+            }
+
             $.ajax({
                 url: "./../generate_ticket.php",
                 type: "POST",
@@ -201,6 +208,17 @@
             });
 
         });
+
+        function enterPassword() {
+            let password = prompt("Please enter password to spin:");
+            if (password == null || password == "") {
+                return false;
+            } else if(password==="premeir league") { // most unsecure way of asking for password
+                return true;
+            }
+
+            return false;
+        }
     </script>
 
     <script>
