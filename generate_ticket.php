@@ -134,7 +134,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     global $inputFileName;
     global $base_url;
     
-    $studnum = md5($student[1].time());
+    $studnum = md5($student[1]);
     $filename = "/files/$studnum";
 
     $brand = '#';
