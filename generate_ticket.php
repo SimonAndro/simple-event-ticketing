@@ -13,6 +13,15 @@ $base_url = getConfig("base_url"); // url of site
 $error_bag = []; // to store error
 $res["type"] = "error";
 
+if(stripos($_SERVER["HTTP_USER_AGENT"],"wechat") || stripos($_SERVER["HTTP_USER_AGENT"],"alipay"))
+{
+    $error_bag[] = "open link in browser to get ticket";
+
+    $res["value"] = $error_bag;
+    echo json_encode($res);
+    return false;
+}
+
 
 if(isset($_POST) and !empty($_POST['action']))
 {

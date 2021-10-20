@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,6 +49,11 @@
                             <button type="submit" class="btn btn-primary btn-block">Get Ticket</button>
                         </div>
                     </form>
+                    <?php if(stripos($_SERVER["HTTP_USER_AGENT"],"wechat") || stripos($_SERVER["HTTP_USER_AGENT"],"alipay")): ?>
+                    <div class="text-warning text-center">
+                        open link in browser to get ticket
+                    </div>
+                    <?php  endif ?>
                 </div>
             </div>
         </div>
