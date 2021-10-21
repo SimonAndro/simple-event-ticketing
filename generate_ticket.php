@@ -60,7 +60,7 @@ if (isset($_POST) and !empty($_POST['action'])) {
                 return false;
             }
             break;
-        case "draw":
+        case "draw": // randomly get lucky draw winner 
             $pass =  trim($_POST["pass"]);
             if($pass != getConfig("spin_pass"))
             {
@@ -99,7 +99,7 @@ if (isset($_POST) and !empty($_POST['action'])) {
 
             $res["type"] = "success";
             $res["value"] = str_split($lucky_winner);
-            foreach($res["value"] as $key=>$value) // find and replace zero with 10 in the array
+            foreach($res["value"] as $key=>$value) // find and replace zero with 10 in the array, needed by slotmachine.js
             {
                 if($value == "0")
                 {
@@ -140,7 +140,7 @@ function download_ticket($ticketname)
     header("Content-Type: image/png");
 }
 
-// verify student number, checks if the student number exists in the excell sheet
+// verify student number, checks if the student number exists in the spreadsheet
 function verify_studentnum($studnum, $workSheet)
 {
     global $error_bag;
