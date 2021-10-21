@@ -3,3 +3,4 @@ files/
 data/
 vendor/
 debug.txt
+config.php
