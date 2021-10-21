@@ -32,11 +32,11 @@ if (isset($_POST) and !empty($_POST['action'])) {
             // get active worksheet
             $workSheet = $spreadsheet->getActiveSheet();
 
-            $studnum = empty($_POST["studnum"]) ? "" : trim("" . $_POST["studnum"]);
+            $studnum = empty($_POST["studnum"]) ? "" : trim(strval($_POST["studnum"]));
 
-            if ($student = verify_studentnum($studnum, $workSheet)) {
+            if ($studdata = verify_studentnum($studnum, $workSheet)) {
                 $res["type"] = "success";
-                $res["value"] = generate_ticket($student, $spreadsheet, $workSheet);
+                $res["value"] = generate_ticket($studdata, $spreadsheet, $workSheet);
                 echo json_encode($res);
                 return false;
             } else {
@@ -161,11 +161,8 @@ function verify_studentnum($studnum, $workSheet)
     $workSheet_array = $workSheet->toArray();
     $key = array_search($studnum, array_column($workSheet_array, 1)); // search for matching student number
 
-    $student["key"] = $key;
-
     if ($key) {
         $student = $workSheet_array[$key];
-        array_push($student, $key);
 
         if ($student[3] == "issued") //checking if ticket has already been issued
         {
@@ -174,7 +171,7 @@ function verify_studentnum($studnum, $workSheet)
             return false;
         }
 
-        return $student;
+        return [$student,$key];
     }
 
     $error_bag[] = "student no. not found, contact organizer";
@@ -183,10 +180,14 @@ function verify_studentnum($studnum, $workSheet)
 }
 
 // generate ticket
-function generate_ticket($student, $spreadsheet, $workSheet)
+function generate_ticket($studdata, $spreadsheet, $workSheet)
 {
     global $inputFileName;
     global $base_url;
+
+    list($student, $key) = $studdata;  //unpack studata array
+
+    $student[1] = strval($student[1]); //cast to string
 
     $studnum = md5($student[1]);
     $filename = "/files/$studnum";
@@ -194,7 +195,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     $brand = '#';
     $cur_date = date("d") . date("H") . date("i") . date("s");
     $invoice = $brand . $cur_date;
-    $customer_id = rand(00, 99);
+    $customer_id = sprintf("%02d",rand(00, 99));
     $uRefNo = $invoice . '-' . $customer_id;
 
     $text1 = function (TextToImage $handler) use ($uRefNo) { //ticket number
@@ -207,7 +208,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     };
     $text2 = function (TextToImage $handler) use ($student) { // student number
 
-        $handler->add("" . $student[1])
+        $handler->add($student[1])
             ->position(610, 1130)
             ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
             ->color(255, 255, 255)
@@ -215,7 +216,7 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     };
     $text3 = function (TextToImage $handler) use ($student) { // student name
 
-        $studname = "" . $student[0];
+        $studname = $student[0];
         if (strlen($studname) > 25) {
             $studname = substr($studname, 0, 25) . "...";
         }
@@ -235,8 +236,8 @@ function generate_ticket($student, $spreadsheet, $workSheet)
     )->close(__DIR__ . $filename);
 
     # mark ticket issued
-    $workSheet->getCell("D" . ($student[5] + 1))->setValue('issued');
-    $workSheet->getCell("E" . ($student[5] + 1))->setValue($uRefNo);
+    $workSheet->getCell("D" . ($key + 1))->setValue('issued');
+    $workSheet->getCell("E" . ($key + 1))->setValue($uRefNo);
 
     //writing changes directly using loaded spreadsheet data
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
