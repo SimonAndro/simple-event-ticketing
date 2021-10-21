@@ -61,6 +61,14 @@ if (isset($_POST) and !empty($_POST['action'])) {
             }
             break;
         case "draw":
+            $pass =  trim($_POST["pass"]);
+            if($pass != getConfig("spin_pass"))
+            {
+                $error_bag[] = "Invalid spin password";
+                $res["value"] = $error_bag;
+                echo json_encode($res);
+                return false;
+            }
             // Read excel file
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
             // get active worksheet

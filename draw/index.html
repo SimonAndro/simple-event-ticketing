@@ -149,7 +149,44 @@
                     </ul>
                 </div>
                 <div class="text-center mt-4">
-                    <button type="button" class="btn btn-success btn-lg" id="btn-spinner">Start Spin!</button>
+                    <button type="button" class="btn btn-success btn-lg" id="btn-spinner" data-toggle="modal"
+                        data-target="#passwordModal">Start Spin!</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4" id="loading-glass" style="display: none;">
+            <div class="d-flex flex-row justify-content-center">
+                <div class="lds-hourglass"></div>
+                <div class="align-self-center text-light" style="font-size: 25px;">
+                    Loading...
+                </div>
+            </div>
+        </div>
+        <!-- Notifications -->
+        <div id="notifications">
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Please enter password to spin:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputpassword">Password</label>
+                        <input type="password" class="form-control" id="inputpassword" placeholder="Password">
+                    </div>
+                    <div class="text-center">
+                        <button id="request-spin" class="btn btn-primary">Okay</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,80 +196,82 @@
     <script src="./../assets/js/jquery.easing.min.js"></script>
     <script src="./../assets/js/bootstrap.min.js"></script>
     <script src="./js/slotmachine.min.js"></script>
+    <script src="./../assets/js/notify.js"></script>
 
     <script type="text/javascript">
+        var sound = new Audio('ringtones/spinning.mp3');
+        sound.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
         var ding = new Audio('ringtones/ding.wav');
 
-        $('#btn-spinner').click(function () {
-            //sound.play(); // Start play the sound after click button
+        $('#request-spin').click(function () {
 
-            // if(!enterPassword())
-            // {
-            //     alert("a valid password is required to spin");
+            $("#notifications").html(""); //empty notifications
 
-            //     return false;
-            // }
+            // get pass, close modal
+            var pass = $("#inputpassword").val();
+            $("#inputpassword").val("");
+            $("#passwordModal").modal("hide");
 
-            // $.ajax({
-            //     url: "./../generate_ticket.php",
-            //     type: "POST",
-            //     data: {
-            //         action: "draw"
-            //     },
-            //     success: function (res) {
-            //         console.log(res);
-            //         try {
-            //             var res = JSON.parse(res);
+            $("#loading-glass").show("slow");
 
-            //             $('#spinner ul').playSpin({
-            //                 time: 2000,
-            //                 endNum: res.value,
-            //                 stopSeq: 'leftToRight',
-            //                 easing: 'easeOutBack',
-            //                 onEnd: function () {
-            //                     ding.play(); // Play ding after each number is stopped
-            //                 },
-            //                 onFinish: function () {
-            //                     //sound.pause(); // To stop the looping sound is pause it
-            //                 },
-            //                 // randomize: function () {
-
-            //                 // }
-            //             });
-            //         } catch (e) {
-
-            //         }
-            //     }
-            // });
-
-            $('#spinner ul').playSpin({
-                time: 2000,
-                endNum: 0,
-                stopSeq: 'leftToRight',
-                easing: 'easeOutBack',
-                onEnd: function () {
-                    ding.play(); // Play ding after each number is stopped
+            $.ajax({
+                url: "./../generate_ticket.php",
+                type: "POST",
+                data: {
+                    action: "draw",
+                    pass: pass
                 },
-                onFinish: function () {
-                    //sound.pause(); // To stop the looping sound is pause it
-                },
-                // randomize: function () {
+                success: function (res) {
+                    console.log(res);
+                    try {
+                        var res = JSON.parse(res);
 
-                // }
+                        if (res.type == "success") {
+
+                            sound.play(); // Start play the sound after success res
+
+                            $('#spinner ul').playSpin({
+                                time: 2000,
+                                endNum: res.value,
+                                stopSeq: 'leftToRight',
+                                easing: 'easeOutBack',
+                                onEnd: function () {
+                                    ding.play(); // Play ding after each number is stopped
+                                },
+                                onFinish: function () {
+                                    sound.pause(); // To stop the looping sound is pause it
+                                },
+                            });
+
+                        } else if (res.type == "error") {
+                            var errors = res.value;
+                            errors.forEach(element => {
+                                notify(element, "danger", 0);
+                            });
+
+
+
+                        } else {
+                            console.log(res);
+                            notify("An error occurred, check console log", "danger", 0);
+                        }
+
+
+                    } catch (e) {
+                        console.log(e);
+                        notify("An error occurred, check console log", "danger", 0);
+                    }
+                },
+                complete: function () {
+                    $("#loading-glass").hide("slow");
+                }
             });
 
         });
 
-        function enterPassword() {
-            let password = prompt("Please enter password to spin:");
-            if (password == null || password == "") {
-                return false;
-            } else if (password === "premeir league") { // most unsecure way of asking for password
-                return true;
-            }
-
-            return false;
-        }
     </script>
 
     <script>
