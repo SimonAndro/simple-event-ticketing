@@ -89,7 +89,6 @@ if (isset($_POST) and !empty($_POST['action'])) {
          
             $lucky_winner = str_replace("#","",$lucky_winner);
             $lucky_winner = str_replace("-","",$lucky_winner);
-            $lucky_winner = str_replace("0","10",$lucky_winner);
 
             // set lucky winner
             $workSheet->getCell("F" . ($lucky_key + 1))->setValue('winner');
@@ -100,6 +99,13 @@ if (isset($_POST) and !empty($_POST['action'])) {
 
             $res["type"] = "success";
             $res["value"] = str_split($lucky_winner);
+            foreach($res["value"] as $key=>$value) // find and replace zero with 10 in the array
+            {
+                if($value == "0")
+                {
+                    $res["value"][$key] = "10";
+                }
+            }
 
             echo json_encode($res); // return luck winner
             return false;
