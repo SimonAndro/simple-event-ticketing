@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>jQuery Slot Machine</title>
+    <title>Winner Award</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,31 +12,17 @@
 
 <body>
 
-    <canvas height='1' id='confetti' width='1' ></canvas>
-
+    <canvas height='1' id='confetti' width='1'></canvas>
 
     <div class="container-fluid" style="position:absolute; z-index: 10;">
         <div class="text-center panel panel-primary">
-            <div class="panel-heading mt-2">
+            <div class="panel-heading mt-5">
                 <h1 class="text-light">
                     Winner Draw
                 </h1>
             </div>
             <div class="panel-body mt-5">
-                <div class="slotwrapper " id="spinner">
-                    <ul>
-
-                        <li class="text-warning">1</li>
-                        <li class="text-primary">2</li>
-                        <li class="text-success">3</li>
-                        <li class="text-success">4</li>
-                        <li class="text-light">5</li>
-                        <li class="text-light">6</li>
-                        <li class="text-danger">7</li>
-                        <li class="text-danger">8</li>
-                        <li class="text-primary">9</li>
-                        <li class="text-warning">0</li>
-                    </ul>
+                <div class="slotwrapper d-flex flex-row  justify-content-between" id="spinner">
                     <ul>
                         <li class="text-warning">1</li>
                         <li class="text-primary">2</li>
@@ -121,8 +107,20 @@
                         <li class="text-primary">9</li>
                         <li class="text-warning">0</li>
                     </ul>
-                    <div style="position:relative; float:left;">
-                        <div style="margin-top:100px; background-color:#FFF; height: 10px; width:50px;">
+                    <ul>
+                        <li class="text-warning">1</li>
+                        <li class="text-primary">2</li>
+                        <li class="text-success">3</li>
+                        <li class="text-success">4</li>
+                        <li class="text-light">5</li>
+                        <li class="text-light">6</li>
+                        <li class="text-danger">7</li>
+                        <li class="text-danger">8</li>
+                        <li class="text-primary">9</li>
+                        <li class="text-warning">0</li>
+                    </ul>
+                    <div class="align-self-center">
+                        <div style="background-color:#FFF; height: 3vh; width:5vw;">
                         </div>
                     </div>
                     <ul>
@@ -168,43 +166,59 @@
         $('#btn-spinner').click(function () {
             //sound.play(); // Start play the sound after click button
 
-            if(!enterPassword())
-            {
-                alert("a valid password is required to spin");
+            // if(!enterPassword())
+            // {
+            //     alert("a valid password is required to spin");
 
-                return false;
-            }
+            //     return false;
+            // }
 
-            $.ajax({
-                url: "./../generate_ticket.php",
-                type: "POST",
-                data: {
-                    action: "draw"
+            // $.ajax({
+            //     url: "./../generate_ticket.php",
+            //     type: "POST",
+            //     data: {
+            //         action: "draw"
+            //     },
+            //     success: function (res) {
+            //         console.log(res);
+            //         try {
+            //             var res = JSON.parse(res);
+
+            //             $('#spinner ul').playSpin({
+            //                 time: 2000,
+            //                 endNum: res.value,
+            //                 stopSeq: 'leftToRight',
+            //                 easing: 'easeOutBack',
+            //                 onEnd: function () {
+            //                     ding.play(); // Play ding after each number is stopped
+            //                 },
+            //                 onFinish: function () {
+            //                     //sound.pause(); // To stop the looping sound is pause it
+            //                 },
+            //                 // randomize: function () {
+
+            //                 // }
+            //             });
+            //         } catch (e) {
+
+            //         }
+            //     }
+            // });
+
+            $('#spinner ul').playSpin({
+                time: 2000,
+                endNum: 0,
+                stopSeq: 'leftToRight',
+                easing: 'easeOutBack',
+                onEnd: function () {
+                    ding.play(); // Play ding after each number is stopped
                 },
-                success: function (res) {
-                    console.log(res);
-                    try {
-                        var res = JSON.parse(res);
+                onFinish: function () {
+                    //sound.pause(); // To stop the looping sound is pause it
+                },
+                // randomize: function () {
 
-                        $('#spinner ul').playSpin({
-                            time: 2000,
-                            endNum: res.value,
-                            stopSeq: 'leftToRight',
-                            easing: 'easeOutBack',
-                            onEnd: function () {
-                                ding.play(); // Play ding after each number is stopped
-                            },
-                            onFinish: function () {
-                                //sound.pause(); // To stop the looping sound is pause it
-                            },
-                            // randomize: function () {
-
-                            // }
-                        });
-                    } catch (e) {
-
-                    }
-                }
+                // }
             });
 
         });
@@ -213,7 +227,7 @@
             let password = prompt("Please enter password to spin:");
             if (password == null || password == "") {
                 return false;
-            } else if(password==="premeir league") { // most unsecure way of asking for password
+            } else if (password === "premeir league") { // most unsecure way of asking for password
                 return true;
             }
 
@@ -515,7 +529,7 @@
                             i + 1].position.y + this.yOff);
                         if (this.Side(this.particles[i].position.x, this.particles[i].position.y, this
                                 .particles[i + 1].position.x, this.particles[i + 1].position.y, p1.x, p1.y
-                                ) < 0) {
+                            ) < 0) {
                             _g.fillStyle = this.frontColor;
                             _g.strokeStyle = this.frontColor;
                         } else {
