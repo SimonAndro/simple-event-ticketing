@@ -221,9 +221,16 @@ function generate_ticket($studdata, $spreadsheet, $workSheet)
             $studname = substr($studname, 0, 25) . "...";
         }
 
+        $nameFont = __DIR__ . '/assets/fonts/sweet purple.otf';
+
+        if($student[2] == "中国") // use chinese font for writing name
+        {
+            $nameFont = __DIR__ . '/assets/fonts/y-medium.ttf';
+        }
+
         $handler->add($studname)
             ->position(610, 1255)
-            ->font(80, __DIR__ . '/assets/fonts/sweet purple.otf')
+            ->font(80, $nameFont)
             ->color(255, 255, 255)
             ->shadow(1, 2, [0, 0, 0]);
     };
